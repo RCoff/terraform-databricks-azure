@@ -6,9 +6,13 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.47"
     }
-    databricks = {
-      source  = "databricks/databricks"
-      version = "~> 1.91"
-    }
   }
+}
+
+provider "azurerm" {
+  features {}
+
+  # Enable Azure AD integration for storage account
+  #   This is required as we will be disabling access key authentication on the storage account
+  storage_use_azuread = true
 }
