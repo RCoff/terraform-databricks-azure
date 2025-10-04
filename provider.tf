@@ -12,6 +12,8 @@ terraform {
 provider "azurerm" {
   features {}
 
+  subscription_id = var.subscription
+
   # Enable Azure AD integration for storage account
   #   This is required as we will be disabling access key authentication on the storage account
   storage_use_azuread = true
