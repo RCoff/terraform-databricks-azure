@@ -45,11 +45,22 @@ resource "azurerm_monitor_diagnostic_setting" "databricks_audit" {
   target_resource_id         = azurerm_databricks_workspace.primary.id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
-  enabled_log {
-    category = "allLogs"
-  }
+  dynamic "enabled_log" {
+    # Note: The below list is not meant to be exhaustive.
+    #   Add or remove categories based on your monitoring needs.
+    for_each = [
+      "clusters",
+      "accounts",
+      "jobs",
+      "notebook",
+      "workspace",
+      "secrets",
+      "sqlPermissions",
+      "instancePools",
+    ]
 
-  enabled_metric {
-    category = "AllMetrics"
+    content {
+      category = enabled_log.value
+    }
   }
 }
